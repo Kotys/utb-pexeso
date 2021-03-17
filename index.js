@@ -38,13 +38,13 @@ const pexeso = (containerId) => {
 
     // Shuffle
     cards.sort(() => Math.random() - 0.5);
-    cards.sort(() => Math.random() - 0.5);
-    cards.sort(() => Math.random() - 0.5);
-    cards.sort(() => Math.random() - 0.5);
 
     app.cards = cards;
 	};
 
+  /**
+   * Create Cards Elements in Container element
+   */
 	app.render = () => {
 		for (const card of app.cards) {
 			const cardEl = document.createElement('div');
@@ -67,8 +67,8 @@ const pexeso = (containerId) => {
 
 
       function toggleCardFn() {
-  this.classList.toggle('card-revealed');
-}
+        this.classList.toggle('card-revealed');
+      }
 
 			app.container.appendChild(cardEl);
 		}
