@@ -1,6 +1,8 @@
 {
-  "name": "js",
+  "name": "utb-pexeso",
   "version": "0.0.0",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "font-awesome": "4.7.0"
+  }
 }
