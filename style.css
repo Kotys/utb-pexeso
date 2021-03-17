@@ -1,0 +1,18 @@
+.card {
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  background: red url("assets/card-bg-img.png");
+}
+
+body {
+  background: black;
+}
+
+.card i.fa {
+  font-size: 72px;
+}
+
+.card-revealed {
+  background: red;
+}
