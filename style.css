@@ -1,5 +1,6 @@
 body {
 	background: burlywood;
+  line-height: 0;
 }
 
 .card {
@@ -11,11 +12,16 @@ body {
 	position: relative;
 	cursor: pointer;
   transition: all 600ms;
+  border: 2px solid white;
 }
 
 .card.card-revealed {
 	transform: rotateX(180deg);
 	-webkit-transform: rotateX(180deg);
+}
+
+.card.card-matched {
+	border-color: green;
 }
 
 .card .card-front,
@@ -26,7 +32,6 @@ body {
 	background: #FFF;
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
-	border-radius: 2px;
 }
 
 .card .card-front {
