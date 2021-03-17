@@ -3,28 +3,50 @@ import './reset.css';
 import './style.css';
 
 const pexeso = () => {
-  const app = this;
+	const app = this;
 
-  /**
-   * Array of Cards
-   */
-  app.cards = [];
+	app.container = document.getElementById('my-app');
 
-  /**
-   * Generate random Cards
-   */
-  app.generateCards = () => {
-    app.cards.push({
-      icon: 'bell'
-    });
-    // TODO: Randomize
-  };
+	/**
+	 * Array of Cards
+	 */
+	app.cards = [];
 
-  app.render = () => {
-      
-  };
+	/**
+	 * Generate random Cards
+	 */
+	app.generateCards = () => {
+		app.cards.push({
+			icon: 'bell'
+		});
+		app.cards.push({
+			icon: 'bug'
+		});
+		app.cards.push({
+			icon: 'wifi'
+		});
+		// TODO: Randomize
+	};
 
-  return app;
+	app.render = () => {
+		for (const card of app.cards) {
+			const cardEl = document.createElement('div');
+			cardEl.className = 'card';
+
+      const cardFrontEl = document.createElement('div');
+			cardFrontEl.className = 'card-front';
+
+      const cardBackEl = document.createElement('div');
+			cardBackEl.className = 'card-back';
+
+      cardEl.appendChild(cardFrontEl);
+      cardEl.appendChild(cardBackEl);
+
+			app.container.appendChild(cardEl);
+		}
+	};
+
+	return app;
 };
 
 const app = pexeso();
@@ -37,8 +59,6 @@ app.render();
 console.log(app);
 
 
-
-
 // const appDiv = document.getElementById('my-app');
 
 // const cards = [
@@ -49,7 +69,7 @@ console.log(app);
 
 
 // function generateCards() {
-  
+
 // }
 
 // const cardElements = appDiv.getElementsByClassName('card');
