@@ -3,8 +3,6 @@ body {
 }
 
 .card {
-	-webkit-perspective: 1000px;
-	perspective: 1000px;
 	-webkit-transform-style: preserve-3d;
 	transform-style: preserve-3d;
 	display: block;
@@ -34,13 +32,13 @@ body {
 }
 
 .card .card-front {
-	background: red no-repeat url("https://stackblitz.com/files/pexeso/github/Kotys/utb-pexeso/master/assets/b2a-logo-digital-innovation-light-2@2.png");
+	background: rgb(48, 48, 48) no-repeat url("https://stackblitz.com/files/pexeso/github/Kotys/utb-pexeso/master/assets/b2a-logo-digital-innovation-light-2@2.png");
 	background-position: center center;
 	background-size: 65%;
 }
 
 .card .card-back {
-	background: #222;
+	background: rgb(96, 96, 96);
 	color: #FFF;
 	-webkit-transform: rotateX(180deg);
 	transform: rotateX(180deg);
@@ -48,4 +46,5 @@ body {
 
 .card .card-back i.fa {
 	font-size: 72px;
+  line-height: 300px;
 }
