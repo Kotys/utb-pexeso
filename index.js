@@ -2,10 +2,13 @@
 import './reset.css';
 import './style.css';
 
-const pexeso = () => {
+const pexeso = (containerId) => {
 	const app = this;
 
-	app.container = document.getElementById('my-app');
+  /**
+   * Main Container
+   */
+	app.container = document.getElementById(containerId);
 
 	/**
 	 * Array of Cards
@@ -16,16 +19,30 @@ const pexeso = () => {
 	 * Generate random Cards
 	 */
 	app.generateCards = () => {
-		app.cards.push({
-			icon: 'bell'
-		});
-		app.cards.push({
-			icon: 'bug'
-		});
-		app.cards.push({
-			icon: 'wifi'
-		});
-		// TODO: Randomize
+		const cards = [];
+
+    // TODO: Randomize
+    cards.push({icon: 'bell'});
+		cards.push({icon: 'bug'});
+		cards.push({icon: 'wifi'});
+    cards.push({icon: 'taxi'});
+    cards.push({icon: 'bicycle'});
+    cards.push({icon: 'coffee'});
+    cards.push({icon: 'diamond'});
+    cards.push({icon: 'gift'});
+    cards.push({icon: 'rocket'});
+    cards.push({icon: 'gamepad'});
+
+    // Duplicate entries
+    cards.push(...cards);
+
+    // Shuffle
+    cards.sort(() => Math.random() - 0.5);
+    cards.sort(() => Math.random() - 0.5);
+    cards.sort(() => Math.random() - 0.5);
+    cards.sort(() => Math.random() - 0.5);
+
+    app.cards = cards;
 	};
 
 	app.render = () => {
@@ -35,12 +52,23 @@ const pexeso = () => {
 
       const cardFrontEl = document.createElement('div');
 			cardFrontEl.className = 'card-front';
+      cardEl.appendChild(cardFrontEl);
 
       const cardBackEl = document.createElement('div');
 			cardBackEl.className = 'card-back';
 
-      cardEl.appendChild(cardFrontEl);
+      const iconEl = document.createElement('i');
+      iconEl.className = 'fa fa-' + card.icon;
+      cardBackEl.appendChild(iconEl);
+
       cardEl.appendChild(cardBackEl);
+
+      cardEl.addEventListener('click', toggleCardFn);
+
+
+      function toggleCardFn() {
+  this.classList.toggle('card-revealed');
+}
 
 			app.container.appendChild(cardEl);
 		}
@@ -49,7 +77,7 @@ const pexeso = () => {
 	return app;
 };
 
-const app = pexeso();
+const app = pexeso('my-app');
 
 app.generateCards();
 app.render();
