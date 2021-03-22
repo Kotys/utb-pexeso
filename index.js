@@ -16,10 +16,10 @@ const pexeso = (containerId) => {
     startBtn.innerText = 'Start';
     startBtn.className = 'start-btn';
     startBtn.addEventListener('click', () => {
-      app.containerBody.removeChild(startBtn);
-      app.generateCards();
-      app.render();
-      app.start();
+        app.containerBody.removeChild(startBtn);
+        app.generateCards();
+        app.render();
+        app.start();
     });
     app.containerBody.appendChild(startBtn);
 
@@ -258,17 +258,19 @@ const pexeso = (containerId) => {
     app.finish = () => {
         app.state = 'finished';
         clearInterval(app.timer);
-        if(app.cards.length === app.matchedCards.length) {
-          alert('Ya win!');
-        }
+        setTimeout(() => {
+            if (app.cards.length === app.matchedCards.length) {
+                alert('Ya win!');
+            }
+        }, 500);
     };
 
     app.renderTime = () => {
-      const minutes = Math.round(app.time / 60);
-      const seconds = app.time - (minutes * 60);
-      const minutesAsString = minutes < 10 ? '0' + String(minutes) : String(minutes);
-      const secondsAsString = seconds < 10 ? '0' + String(seconds) : String(seconds);
-      app.containerHeader.innerText = 'čas ' + minutesAsString + ':' + secondsAsString;
+        const minutes = Math.floor(app.time / 60);
+        const seconds = app.time - (Math.floor(app.time / 60) * 60);
+        const minutesAsString = minutes < 10 ? '0' + String(minutes) : String(minutes);
+        const secondsAsString = seconds < 10 ? '0' + String(seconds) : String(seconds);
+        app.containerHeader.innerText = 'čas ' + minutesAsString + ':' + secondsAsString;
     };
 
     return app;
