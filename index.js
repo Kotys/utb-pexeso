@@ -63,8 +63,8 @@ const pexeso = (containerId) => {
         for (const card of [
             {uuid: null, code: 'bell', icon: 'bell'},
             {uuid: null, code: 'bug', icon: 'bug'},
-            // {uuid: null, code: 'wifi', icon: 'wifi'},
-            // {uuid: null, code: 'taxi', icon: 'taxi'},
+            {uuid: null, code: 'wifi', icon: 'wifi'},
+            {uuid: null, code: 'taxi', icon: 'taxi'},
             // {uuid: null, code: 'bicycle', icon: 'bicycle'},
             // {uuid: null, code: 'coffee', icon: 'coffee'},
             // {uuid: null, code: 'diamond', icon: 'diamond'},
