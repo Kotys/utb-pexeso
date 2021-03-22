@@ -104,19 +104,16 @@ const pexeso = (containerId) => {
       return;
     }
     el.classList.add('card-revealed');
-    app.revealedCards.push(card);
   };
 
   // Helper fn, that removes card-revealed class to card matching element
   app.hideCard = (card) => {
     const el = document.getElementById('card-' + card.uuid);
     if(!el) {
+      console.error('no card');
       return;
     }
     el.classList.remove('card-revealed');
-    app.revealedCards =app.revealedCards.filter(revealedCard => {
-      return revealedCard.uuid !== card.uuid;
-    });
   };
 
   // Helper fn, that adds card-matched class to card matching element
@@ -126,7 +123,6 @@ const pexeso = (containerId) => {
       return;
     }
     el.classList.add('card-matched');
-    app.matchCards.push(card);
   };
 
   app.revealedCardsMatch = () => {
@@ -147,20 +143,26 @@ const pexeso = (containerId) => {
 
       setTimeout(() => {
 
-      if(app.revealedCards.length === 2) {
-        if(app.revealedCardsMatch()) {
-          for(const card of app.revealedCards) {
-            app.matchCard(card);
+        console.log(app.revealedCards.length);
+        if(app.revealedCards.length === 2) {
+          if(app.revealedCardsMatch()) {
+            // Mark cards as matched
+            for(const card of app.revealedCards) {
+              app.matchCard(card);
+            }
+            // Store cards as matched
+            app.matchedCards.push(...app.revealedCards);
+            // Reset revealed cards
+            app.revealedCards=[];
+          } else {
+            // Hide revealed cards
+            for(const card of app.revealedCards) {
+              app.hideCard(card);
+            }
+            // Reset revealed cards
+            app.revealedCards=[];
           }
-          app.matchedCards.push(...app.revealedCards);
-          app.revealedCards = [];
-        } else {
-          for(const card of app.revealedCards) {
-            app.hideCard(card);
-          }
-          app.revealedCards = [];
         }
-      }
 
       }, 2000);
 
