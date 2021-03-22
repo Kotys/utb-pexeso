@@ -32,6 +32,16 @@ const pexeso = (containerId) => {
     app.matchedCards = [];
 
     /**
+     * Game time in seconds
+     */
+    app.time = 0;
+
+    /**
+     * Timer interval
+     */
+    app.timer = null;
+
+    /**
      * Generate random Cards
      */
     app.generateCards = () => {
@@ -43,7 +53,7 @@ const pexeso = (containerId) => {
             // {uuid: null, code: 'wifi', icon: 'wifi'},
             // {uuid: null, code: 'taxi', icon: 'taxi'},
             // {uuid: null, code: 'bicycle', icon: 'bicycle'},
-            // {uuid: null, code: 'coffee', icon: 'coffee'},
+            {uuid: null, code: 'coffee', icon: 'coffee'},
             // {uuid: null, code: 'diamond', icon: 'diamond'},
             // {uuid: null, code: 'gift', icon: 'gift'},
             // {uuid: null, code: 'rocket', icon: 'rocket'},
@@ -148,18 +158,19 @@ const pexeso = (containerId) => {
         if (remainingCards.length !== 2) {
             return;
         }
-        app.revealCard(remainingCards[0]);
-        app.revealedCards.push(remainingCards[0]);
 
         setTimeout(() => {
+            app.revealCard(remainingCards[0]);
+            app.revealedCards.push(remainingCards[0]);
+
             app.revealCard(remainingCards[1]);
             app.revealedCards.push(remainingCards[1]);
 
             setTimeout(() => {
                 app.markAsMatched();
                 app.finish();
-            }, 1000);
-        }, 500);
+            }, 500);
+        }, 1000);
     };
 
     app.markAsMatched = () => {
@@ -182,14 +193,6 @@ const pexeso = (containerId) => {
         app.revealedCards = [];
     };
 
-    app.start = () => {
-        app.state = 'running';
-    };
-
-    app.finish = () => {
-        app.state = 'finished';
-    };
-
     app.initializeCard = (card, cardFrontEl, cardBackendEl, cardEl) => {
         const onCardClickFn = () => {
             // Block attempt to reveal card if game is not running
@@ -206,24 +209,43 @@ const pexeso = (containerId) => {
             app.revealedCards.push(card);
 
             if (app.revealedCards.length === 2) {
-              // Wait 2000ms before evaluation
-              setTimeout(() => {
-                if (app.revealedCards.length === 2) {
-                    if (app.checkForRevealedCardsMatch()) {
-                        app.markAsMatched();
-                        // Only single pair remains to be revealed
-                        if (app.cards.length - app.matchedCards.length === 2) {
-                            app.revealRemainingCards();
+                // Wait 2000ms before evaluation
+                setTimeout(() => {
+                    if (app.revealedCards.length === 2) {
+                        if (app.checkForRevealedCardsMatch()) {
+                            app.markAsMatched();
+                            // Only single pair remains to be revealed
+                            if (app.cards.length - app.matchedCards.length === 2) {
+                                app.revealRemainingCards();
+                            }
+                        } else {
+                            app.clearRevealedCards();
                         }
-                    } else {
-                        app.clearRevealedCards();
                     }
-                }
-              }, 2000);
+                }, 1000);
             }
         };
 
         cardFrontEl.addEventListener('click', onCardClickFn);
+    };
+
+    app.start = () => {
+        app.state = 'running';
+        app.timer = setInterval(() => {
+            app.time++;
+            app.renderTime();
+        }, 1000);
+        app.time = 0;
+        app.renderTime();
+    };
+
+    app.finish = () => {
+        app.state = 'finished';
+        clearInterval(app.timer);
+    };
+
+    app.renderTime = () => {
+      
     };
 
     return app;
