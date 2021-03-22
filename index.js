@@ -8,7 +8,7 @@ class Pexeso {
      * Main Containers
      */
     container = null;
-    containerHeader =null;
+    containerHeader = null;
     containerBody = null;
 
     /**
@@ -35,28 +35,28 @@ class Pexeso {
     /**
      * Game time in seconds
      */
-    time = 0;
+    timer = 0;
 
     /**
-     * Timer interval
+     * Game timer interval
      */
-    timer = null;
+    timerIntervalId = null;
 
     constructor(containerId) {
-      this.container = document.getElementById(containerId);
-      this.containerHeader = document.getElementById(containerId + '-header');
-      this.containerBody = document.getElementById(containerId + '-body');
+        this.container = document.getElementById(containerId);
+        this.containerHeader = document.getElementById(containerId + '-header');
+        this.containerBody = document.getElementById(containerId + '-body');
 
-      const startBtn = document.createElement('button');
-      startBtn.innerText = 'Start';
-      startBtn.className = 'start-btn';
-      startBtn.addEventListener('click', () => {
-        this.containerBody.removeChild(startBtn);
-        this.generateCards();
-        this.render();
-        this.start();
-      });
-      this.containerBody.appendChild(startBtn);
+        const startBtn = document.createElement('button');
+        startBtn.innerText = 'Start';
+        startBtn.className = 'start-btn';
+        startBtn.addEventListener('click', () => {
+            this.containerBody.removeChild(startBtn);
+            this.generateCards();
+            this.render();
+            this.start();
+        });
+        this.containerBody.appendChild(startBtn);
     }
 
     /**
@@ -252,17 +252,17 @@ class Pexeso {
             return;
         }
         this.state = 'running';
-        this.timer = setInterval(() => {
-            this.time++;
+        this.timerIntervalId = setInterval(() => {
+            this.timer++;
             this.renderTime();
         }, 1000);
-        this.time = 0;
+        this.timer = 0;
         this.renderTime();
     }
 
     finish() {
         this.state = 'finished';
-        clearInterval(this.timer);
+        clearInterval(this.timerIntervalId);
         setTimeout(() => {
             if (this.cards.length === this.matchedCards.length) {
                 alert('Ya win!');
@@ -271,12 +271,12 @@ class Pexeso {
     };
 
     renderTime() {
-        const minutes = Math.floor(this.time / 60);
-        const seconds = this.time - (Math.floor(this.time / 60) * 60);
+        const minutes = Math.floor(this.timer / 60);
+        const seconds = this.timer - (Math.floor(this.timer / 60) * 60);
         const minutesAsString = minutes < 10 ? '0' + String(minutes) : String(minutes);
         const secondsAsString = seconds < 10 ? '0' + String(seconds) : String(seconds);
-        this.containerHeader.innerText = 'čas ' + minutesAsString + ':' + secondsAsString;
+        this.containerHeader.innerText = 'Čas ' + minutesAsString + ':' + secondsAsString;
     }
 }
 
-const app = new Pexeso('my-app');
+new Pexeso('my-app');
