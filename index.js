@@ -131,7 +131,7 @@ const pexeso = (containerId) => {
         el.classList.add('card-matched');
     };
 
-    app.revealedCardsMatch = () => {
+    app.checkForRevealedCardsMatch = () => {
         if (app.revealedCards.length === 2) {
             return app.revealedCards[0].code === app.revealedCards[1].code;
         }
@@ -205,10 +205,11 @@ const pexeso = (containerId) => {
             app.revealCard(card);
             app.revealedCards.push(card);
 
-            // Wait 2000ms before result evaluation
-            setTimeout(() => {
+            if (app.revealedCards.length === 2) {
+              // Wait 2000ms before evaluation
+              setTimeout(() => {
                 if (app.revealedCards.length === 2) {
-                    if (app.revealedCardsMatch()) {
+                    if (app.checkForRevealedCardsMatch()) {
                         app.markAsMatched();
                         // Only single pair remains to be revealed
                         if (app.cards.length - app.matchedCards.length === 2) {
@@ -218,7 +219,8 @@ const pexeso = (containerId) => {
                         app.clearRevealedCards();
                     }
                 }
-            }, 2000);
+              }, 2000);
+            }
         };
 
         cardFrontEl.addEventListener('click', onCardClickFn);
