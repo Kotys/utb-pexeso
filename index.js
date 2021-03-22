@@ -42,6 +42,11 @@ class Pexeso {
      */
     timerIntervalId = null;
 
+    /**
+     * Register main Containers
+     * Append game start button
+     * @param containerId
+     */
     constructor(containerId) {
         this.container = document.getElementById(containerId);
         this.containerHeader = document.getElementById(containerId + '-header');
@@ -60,23 +65,21 @@ class Pexeso {
     }
 
     /**
-     * Generate random Cards
+     * Generate Cards
      */
     generateCards() {
         const cards = [];
 
+        // Iterate over available cards
         for (const card of [
             {uuid: null, code: 'bell', icon: 'bell'},
             {uuid: null, code: 'bug', icon: 'bug'},
             {uuid: null, code: 'wifi', icon: 'wifi'},
-            {uuid: null, code: 'taxi', icon: 'taxi'},
-            // {uuid: null, code: 'bicycle', icon: 'bicycle'},
-            // {uuid: null, code: 'coffee', icon: 'coffee'},
-            // {uuid: null, code: 'diamond', icon: 'diamond'},
-            // {uuid: null, code: 'gift', icon: 'gift'},
-            // {uuid: null, code: 'rocket', icon: 'rocket'},
-            // {uuid: null, code: 'gamepad', icon: 'gamepad'},
+            {uuid: null, code: 'coffee', icon: 'coffee'},
+            {uuid: null, code: 'diamond', icon: 'diamond'},
+            {uuid: null, code: 'rocket', icon: 'rocket'},
         ]) {
+            // Create pairs of same card with different uuid 
             cards.push({
                 ...card,
                 uuid: card.code + '-1',
@@ -159,6 +162,7 @@ class Pexeso {
         el.classList.add('card-matched');
     }
 
+    // Compare fn, that compares two revealed cards for match in their codes
     checkForRevealedCardsMatch() {
         if (this.revealedCards.length === 2) {
             return this.revealedCards[0].code === this.revealedCards[1].code;
@@ -166,6 +170,7 @@ class Pexeso {
         return false;
     }
 
+    // Find remaining cards that are not revealed yet and reveals them
     revealRemainingCards() {
         const remainingCards = this.cards.filter(remainingCard => {
             return this.matchedCards.find(matchedCard => {
@@ -185,13 +190,14 @@ class Pexeso {
             this.revealedCards.push(remainingCards[1]);
 
             setTimeout(() => {
-                this.markAsMatched();
+                this.markRevealedAsMatched();
                 this.finish();
             }, 500);
         }, 1000);
     }
 
-    markAsMatched() {
+
+    markRevealedAsMatched() {
         // Mark cards as matched
         for (const card of this.revealedCards) {
             this.matchCard(card);
@@ -202,7 +208,7 @@ class Pexeso {
         this.revealedCards = [];
     }
 
-    clearRevealedCards() {
+    clearRevealed() {
         // Hide revealed cards
         for (const card of this.revealedCards) {
             this.hideCard(card);
@@ -231,13 +237,13 @@ class Pexeso {
                 setTimeout(() => {
                     if (this.revealedCards.length === 2) {
                         if (this.checkForRevealedCardsMatch()) {
-                            this.markAsMatched();
+                            this.markRevealedAsMatched();
                             // Only single pair remains to be revealed
                             if (this.cards.length - this.matchedCards.length === 2) {
                                 this.revealRemainingCards();
                             }
                         } else {
-                            this.clearRevealedCards();
+                            this.clearRevealed();
                         }
                     }
                 }, 1000);
@@ -247,6 +253,7 @@ class Pexeso {
         cardFrontEl.addEventListener('click', onCardClickFn);
     }
 
+    // Start game
     start() {
         if (this.state !== 'init') {
             return;
@@ -260,6 +267,7 @@ class Pexeso {
         this.renderTime();
     }
 
+    // Finish game
     finish() {
         this.state = 'finished';
         clearInterval(this.timerIntervalId);
@@ -270,6 +278,7 @@ class Pexeso {
         }, 500);
     };
 
+    // Helper fn, updates UI
     renderTime() {
         const minutes = Math.floor(this.timer / 60);
         const seconds = this.timer - (Math.floor(this.timer / 60) * 60);
@@ -279,4 +288,5 @@ class Pexeso {
     }
 }
 
-new Pexeso('my-app');
+// Create Pexeso instance
+const app = new Pexeso('my-app');

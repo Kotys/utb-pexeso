@@ -1,15 +1,17 @@
 body {
 	background: burlywood;
   line-height: 0;
+  padding: 24px;
 }
 
 header {
   font-size: 32px;
   line-height: 32px;
+  padding: 0 12px 12px;
 }
 
 main {
-
+  text-align: center;
 }
 
 button.start-btn {
@@ -27,7 +29,8 @@ button.start-btn {
 	position: relative;
 	cursor: pointer;
   transition: all 600ms;
-  border: 2px solid white;
+  border: 2px solid rgb(200, 200, 200);
+  margin: 5px;
 }
 
 .card.card-revealed {
