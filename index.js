@@ -1,6 +1,7 @@
 // Import stylesheets
-import './reset.css';
-import './style.css';
+import './styles/reset.css';
+import './styles/layout.css';
+import './styles/app.css';
 
 class Pexeso {
 
