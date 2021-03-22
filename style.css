@@ -8,6 +8,14 @@ header {
   line-height: 32px;
 }
 
+main {
+
+}
+
+button.start-btn {
+  font-weight: bold;
+}
+
 .card {
 	-webkit-transform-style: preserve-3d;
 	transform-style: preserve-3d;
