@@ -157,10 +157,13 @@ const pexeso = (containerId) => {
 
                         // Only single pair remains to be revealed
                         if(app.cards.length - app.matchedCards.length === 2) {
-                          const remainingCards = [];
-                          for(const remainingCard of remainingCards) {
-                            // TODO: Simulate click
-                          }
+                          const remainingCards = app.cards.filter(remainingCard => {
+                            return app.matchedCards.find(matchedCard => {
+                              return matchedCard.uuid === remainingCard.uuid;
+                            }) === undefined;
+                          });
+                          console.log(remainingCards);
+                          document.getElementById();
                         }
                     } else {
                         // Hide revealed cards
