@@ -33,7 +33,9 @@ const pexeso = (containerId) => {
 
     // TODO: Randomize
     cards.push({uuid: null, code: 'bell', icon: 'bell'});
+    cards.push({uuid: null, code: 'bell', icon: 'bell'});
 		cards.push({uuid: null, code: 'bug', icon: 'bug'});
+    cards.push({uuid: null, code: 'bug', icon: 'bug'});
 		// cards.push({uuid: null, code: 'wifi', icon: 'wifi'});
     // cards.push({uuid: null, code: 'taxi', icon: 'taxi'});
     // cards.push({uuid: null, code: 'bicycle', icon: 'bicycle'});
@@ -44,7 +46,7 @@ const pexeso = (containerId) => {
     // cards.push({uuid: null, code: 'gamepad', icon: 'gamepad'});
 
     // Duplicate entries
-    cards.push(...cards);
+    // cards.push(...cards);
 
     for(const index in cards) {
       cards[index].uuid = cards[index].code + '-' + index;
@@ -84,7 +86,7 @@ const pexeso = (containerId) => {
       cardEl.appendChild(cardBackEl);
 
       // Assing unique ID to card element
-      cardEl.id = card.uuid;
+      cardEl.id = 'card-' + card.uuid;
 
       // Append composed card element to visible DOM
 			app.container.appendChild(cardEl);
@@ -112,12 +114,11 @@ const pexeso = (containerId) => {
     el.classList.remove('card-revealed');
   };
 
-  app.revealCardFnFactory = (card) => {
-    return (event) => {
-      console.log(card);
-      cardElement.classList.add('card-revealed');
-    };
-  };
+//   app.revealCardFnFactory = (card) => {
+//     return (event) => {
+//       cardElement.classList.add('card-revealed');
+//     };
+//   };
 
   app.markCardAsRevealedFnFactory = (card) => {
     // Check for already revealed card
@@ -129,13 +130,16 @@ const pexeso = (containerId) => {
     console.log(app.revealedCard);
   };
 
-  app.checkMatch = (cardA, cardB) => {
-    return cardA.code === cardB.code;
+  app.revealedCardsMatch = () => {
+    if(app.revealedCards && app.revealedCards.length === 2) {
+      return app.revealedCards[0].code === app.revealedCards[1].code;
+    }
+    return false;
   };
 
   app.initializeCard = (card, cardFrontEl, cardBackendEl, cardEl) => {
-    const revealCardFn = app.revealCardFnFactory(card, cardEl);
-    const markCardAsRevealedFn = app.markCardAsRevealedFnFactory(card);
+    // const revealCardFn = app.revealCardFnFactory(card, cardEl);
+    // const markCardAsRevealedFn = app.markCardAsRevealedFnFactory(card);
 
     const onClickFn = () => {
       // TODO: Check already revealed!
@@ -145,30 +149,32 @@ const pexeso = (containerId) => {
       if(app.revealedCards.length === 2) {
         if(app.revealedCardsMatch()) {
 
+        } else {
+          
         }
       }
 
       // revealCardFn();
       // markCardAsRevealedFn();
       
-      if(app.revealedCard && app.revealedCard.uuid !== card.uuid) {
-        if(app.checkMatch(app.revealedCard, card)) {
+      // if(app.revealedCard && app.revealedCard.uuid !== card.uuid) {
+      //   if(app.checkMatch(app.revealedCard, card)) {
 
-        } else {
-          // Hide them
-          cardsElements = [
-            document.getElementsById(app.revealedCard.uuid),
-            document.getElementsById(card.uuid)
-          ];
-          for(const cardElement of cardsElements) {
-            // Not found
-            if(!cardElement) {
-              continue;
-            }
-            cardElement.classList.remove('');
-          }
-        }
-      }
+      //   } else {
+      //     // Hide them
+      //     cardsElements = [
+      //       document.getElementsById(app.revealedCard.uuid),
+      //       document.getElementsById(card.uuid)
+      //     ];
+      //     for(const cardElement of cardsElements) {
+      //       // Not found
+      //       if(!cardElement) {
+      //         continue;
+      //       }
+      //       cardElement.classList.remove('');
+      //     }
+      //   }
+      // }
     };
 
     cardFrontEl.addEventListener('click', onClickFn);
