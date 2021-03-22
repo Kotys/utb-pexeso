@@ -2,62 +2,67 @@
 import './reset.css';
 import './style.css';
 
-const pexeso = (containerId) => {
-    const app = this;
+class Pexeso {
 
     /**
      * Main Containers
      */
-    app.container = document.getElementById(containerId);
-    app.containerHeader = document.getElementById(containerId + '-header');
-    app.containerBody = document.getElementById(containerId + '-body');
-
-    const startBtn = document.createElement('button');
-    startBtn.innerText = 'Start';
-    startBtn.className = 'start-btn';
-    startBtn.addEventListener('click', () => {
-        app.containerBody.removeChild(startBtn);
-        app.generateCards();
-        app.render();
-        app.start();
-    });
-    app.containerBody.appendChild(startBtn);
+    container = null;
+    containerHeader =null;
+    containerBody = null;
 
     /**
      * Value representing app status
      * Values as init, running, finished
      */
-    app.state = 'init';
+    state = 'init';
 
     /**
      * Array of available cards objects
      */
-    app.cards = [];
+    cards = [];
 
     /**
      * Revealed cards objects
      */
-    app.revealedCards = [];
+    revealedCards = [];
 
     /**
      * Matched cards objects
      */
-    app.matchedCards = [];
+    matchedCards = [];
 
     /**
      * Game time in seconds
      */
-    app.time = 0;
+    time = 0;
 
     /**
      * Timer interval
      */
-    app.timer = null;
+    timer = null;
+
+    constructor(containerId) {
+      this.container = document.getElementById(containerId);
+      this.containerHeader = document.getElementById(containerId + '-header');
+      this.containerBody = document.getElementById(containerId + '-body');
+
+      const startBtn = document.createElement('button');
+      startBtn.innerText = 'Start';
+      startBtn.className = 'start-btn';
+      startBtn.addEventListener('click', () => {
+        this.containerBody.removeChild(startBtn);
+        this.generateCards();
+        this.render();
+        this.start();
+      });
+      this.containerBody.appendChild(startBtn);
+    }
 
     /**
      * Generate random Cards
      */
-    app.generateCards = () => {
+    generateCards = () => {
         const cards = [];
 
         for (const card of [
@@ -85,14 +90,14 @@ const pexeso = (containerId) => {
         cards.sort(() => Math.random() - 0.5);
 
         // Assign finished cards
-        app.cards = cards;
+        this.cards = cards;
     };
 
     /**
      * Create Cards Elements in Container element
      */
-    app.render = () => {
-        for (const card of app.cards) {
+    render = () => {
+        for (const card of this.cards) {
             // Create card element - card
             const cardEl = document.createElement('div');
             cardEl.className = 'card';
@@ -119,15 +124,15 @@ const pexeso = (containerId) => {
             cardEl.id = 'card-' + card.uuid;
 
             // Append composed card element to visible DOM
-            app.containerBody.appendChild(cardEl);
+            this.containerBody.appendChild(cardEl);
 
             // Register logic on composed card element
-            app.initializeCard(card, cardFrontEl, cardBackEl, cardEl);
+            this.initializeCard(card, cardFrontEl, cardBackEl, cardEl);
         }
     };
 
     // Helper fn, that adds card-revealed class to card matching element
-    app.revealCard = (card) => {
+    revealCard = (card) => {
         const el = document.getElementById('card-' + card.uuid);
         if (!el) {
             return;
@@ -136,7 +141,7 @@ const pexeso = (containerId) => {
     };
 
     // Helper fn, that removes card-revealed class to card matching element
-    app.hideCard = (card) => {
+    hideCard = (card) => {
         const el = document.getElementById('card-' + card.uuid);
         if (!el) {
             console.error('no card');
@@ -146,7 +151,7 @@ const pexeso = (containerId) => {
     };
 
     // Helper fn, that adds card-matched class to card matching element
-    app.matchCard = (card) => {
+    matchCard = (card) => {
         const el = document.getElementById('card-' + card.uuid);
         if (!el) {
             return;
@@ -154,16 +159,16 @@ const pexeso = (containerId) => {
         el.classList.add('card-matched');
     };
 
-    app.checkForRevealedCardsMatch = () => {
-        if (app.revealedCards.length === 2) {
-            return app.revealedCards[0].code === app.revealedCards[1].code;
+    checkForRevealedCardsMatch = () => {
+        if (this.revealedCards.length === 2) {
+            return this.revealedCards[0].code === this.revealedCards[1].code;
         }
         return false;
     };
 
-    app.revealRemainingCards = () => {
-        const remainingCards = app.cards.filter(remainingCard => {
-            return app.matchedCards.find(matchedCard => {
+    revealRemainingCards = () => {
+        const remainingCards = this.cards.filter(remainingCard => {
+            return this.matchedCards.find(matchedCard => {
                 return matchedCard.uuid === remainingCard.uuid;
             }) === undefined;
         });
@@ -173,66 +178,66 @@ const pexeso = (containerId) => {
         }
 
         setTimeout(() => {
-            app.revealCard(remainingCards[0]);
-            app.revealedCards.push(remainingCards[0]);
+            this.revealCard(remainingCards[0]);
+            this.revealedCards.push(remainingCards[0]);
 
-            app.revealCard(remainingCards[1]);
-            app.revealedCards.push(remainingCards[1]);
+            this.revealCard(remainingCards[1]);
+            this.revealedCards.push(remainingCards[1]);
 
             setTimeout(() => {
-                app.markAsMatched();
-                app.finish();
+                this.markAsMatched();
+                this.finish();
             }, 500);
         }, 1000);
     };
 
-    app.markAsMatched = () => {
+    markAsMatched = () => {
         // Mark cards as matched
-        for (const card of app.revealedCards) {
-            app.matchCard(card);
+        for (const card of this.revealedCards) {
+            this.matchCard(card);
         }
         // Store cards as matched
-        app.matchedCards.push(...app.revealedCards);
+        this.matchedCards.push(...this.revealedCards);
         // Reset revealed cards
-        app.revealedCards = [];
+        this.revealedCards = [];
     };
 
-    app.clearRevealedCards = () => {
+    clearRevealedCards = () => {
         // Hide revealed cards
-        for (const card of app.revealedCards) {
-            app.hideCard(card);
+        for (const card of this.revealedCards) {
+            this.hideCard(card);
         }
         // Reset revealed cards
-        app.revealedCards = [];
+        this.revealedCards = [];
     };
 
-    app.initializeCard = (card, cardFrontEl, cardBackendEl, cardEl) => {
+    initializeCard = (card, cardFrontEl, cardBackendEl, cardEl) => {
         const onCardClickFn = () => {
             // Block attempt to reveal card if game is not running
-            if (app.state !== 'running') {
+            if (this.state !== 'running') {
                 return;
             }
 
             // Block attempt to revael more cards during evaluation of revealed pair
-            if (app.revealedCards.length === 2) {
+            if (this.revealedCards.length === 2) {
                 return;
             }
 
-            app.revealCard(card);
-            app.revealedCards.push(card);
+            this.revealCard(card);
+            this.revealedCards.push(card);
 
-            if (app.revealedCards.length === 2) {
+            if (this.revealedCards.length === 2) {
                 // Wait 2000ms before evaluation
                 setTimeout(() => {
-                    if (app.revealedCards.length === 2) {
-                        if (app.checkForRevealedCardsMatch()) {
-                            app.markAsMatched();
+                    if (this.revealedCards.length === 2) {
+                        if (this.checkForRevealedCardsMatch()) {
+                            this.markAsMatched();
                             // Only single pair remains to be revealed
-                            if (app.cards.length - app.matchedCards.length === 2) {
-                                app.revealRemainingCards();
+                            if (this.cards.length - this.matchedCards.length === 2) {
+                                this.revealRemainingCards();
                             }
                         } else {
-                            app.clearRevealedCards();
+                            this.clearRevealedCards();
                         }
                     }
                 }, 1000);
@@ -242,38 +247,37 @@ const pexeso = (containerId) => {
         cardFrontEl.addEventListener('click', onCardClickFn);
     };
 
-    app.start = () => {
-        if (app.state !== 'init') {
+    start = () => {
+        if (this.state !== 'init') {
             return;
         }
-        app.state = 'running';
-        app.timer = setInterval(() => {
-            app.time++;
-            app.renderTime();
+        this.state = 'running';
+        this.timer = setInterval(() => {
+            this.time++;
+            this.renderTime();
         }, 1000);
-        app.time = 0;
-        app.renderTime();
+        this.time = 0;
+        this.renderTime();
     };
 
-    app.finish = () => {
-        app.state = 'finished';
-        clearInterval(app.timer);
+    finish = () => {
+        this.state = 'finished';
+        clearInterval(this.timer);
         setTimeout(() => {
-            if (app.cards.length === app.matchedCards.length) {
+            if (this.cards.length === this.matchedCards.length) {
                 alert('Ya win!');
             }
         }, 500);
     };
 
-    app.renderTime = () => {
-        const minutes = Math.floor(app.time / 60);
-        const seconds = app.time - (Math.floor(app.time / 60) * 60);
+    renderTime = () => {
+        const minutes = Math.floor(this.time / 60);
+        const seconds = this.time - (Math.floor(this.time / 60) * 60);
         const minutesAsString = minutes < 10 ? '0' + String(minutes) : String(minutes);
         const secondsAsString = seconds < 10 ? '0' + String(seconds) : String(seconds);
-        app.containerHeader.innerText = 'čas ' + minutesAsString + ':' + secondsAsString;
+        this.containerHeader.innerText = 'čas ' + minutesAsString + ':' + secondsAsString;
     };
 
-    return app;
-};
+}
 
-pexeso('my-app');
+const app = new Pexeso('my-app');
