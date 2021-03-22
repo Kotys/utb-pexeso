@@ -11,6 +11,12 @@ const pexeso = (containerId) => {
     app.container = document.getElementById(containerId);
 
     /**
+     * Value representing app status
+     * Values as init, running, finished
+     */
+    app.state = 'init';
+
+    /**
      * Array of available cards objects
      */
     app.cards = [];
@@ -132,8 +138,41 @@ const pexeso = (containerId) => {
         return false;
     };
 
+    app.revealRemainingCards = (remainingCards) => {
+      if(remainingCards.length !== 2) {
+        return;
+      }
+      app.revealCard(remainingCards[0]);
+      app.revealedCards.push(remainingCards[0]);
+      setTimeout(() => {
+        app.revealCard(remainingCards[1]);
+        app.revealedCards.push(remainingCards[1]);
+
+        setTimeout(() => {
+          // Store cards as matched
+          app.matchedCards.push(...app.revealedCards);
+          // Reset revealed cards
+          app.revealedCards = [];
+          app.finish();
+        });
+      }, 1000);
+    };
+
+    app.start = () => {
+      app.state = 'running';
+    };
+
+    app.finish = () => {
+      app.state = 'finished';
+    };
+
     app.initializeCard = (card, cardFrontEl, cardBackendEl, cardEl) => {
         const onCardClickFn = () => {
+            // Block attempt to reveal card if game is not running
+            if(app.state !== 'running') {
+              return;
+            }
+
             // Block attempt to revael more cards during evaluation of revealed pair
             if (app.revealedCards.length === 2) {
                 return;
@@ -162,8 +201,7 @@ const pexeso = (containerId) => {
                               return matchedCard.uuid === remainingCard.uuid;
                             }) === undefined;
                           });
-                          console.log(remainingCards);
-                          document.getElementById();
+                          app.revealRemainingCards(remainingCards);
                         }
                     } else {
                         // Hide revealed cards
@@ -187,7 +225,7 @@ const app = pexeso('my-app');
 
 app.generateCards();
 app.render();
-// app.run();
+app.start();
 
 
 console.log(app);
