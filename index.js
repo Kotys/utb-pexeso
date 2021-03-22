@@ -62,7 +62,7 @@ class Pexeso {
     /**
      * Generate random Cards
      */
-    generateCards = () => {
+    generateCards() {
         const cards = [];
 
         for (const card of [
@@ -91,12 +91,12 @@ class Pexeso {
 
         // Assign finished cards
         this.cards = cards;
-    };
+    }
 
     /**
      * Create Cards Elements in Container element
      */
-    render = () => {
+    render() {
         for (const card of this.cards) {
             // Create card element - card
             const cardEl = document.createElement('div');
@@ -129,44 +129,44 @@ class Pexeso {
             // Register logic on composed card element
             this.initializeCard(card, cardFrontEl, cardBackEl, cardEl);
         }
-    };
+    }
 
     // Helper fn, that adds card-revealed class to card matching element
-    revealCard = (card) => {
+    revealCard(card) {
         const el = document.getElementById('card-' + card.uuid);
         if (!el) {
             return;
         }
         el.classList.add('card-revealed');
-    };
+    }
 
     // Helper fn, that removes card-revealed class to card matching element
-    hideCard = (card) => {
+    hideCard(card) {
         const el = document.getElementById('card-' + card.uuid);
         if (!el) {
             console.error('no card');
             return;
         }
         el.classList.remove('card-revealed');
-    };
+    }
 
     // Helper fn, that adds card-matched class to card matching element
-    matchCard = (card) => {
+    matchCard(card) {
         const el = document.getElementById('card-' + card.uuid);
         if (!el) {
             return;
         }
         el.classList.add('card-matched');
-    };
+    }
 
-    checkForRevealedCardsMatch = () => {
+    checkForRevealedCardsMatch() {
         if (this.revealedCards.length === 2) {
             return this.revealedCards[0].code === this.revealedCards[1].code;
         }
         return false;
-    };
+    }
 
-    revealRemainingCards = () => {
+    revealRemainingCards() {
         const remainingCards = this.cards.filter(remainingCard => {
             return this.matchedCards.find(matchedCard => {
                 return matchedCard.uuid === remainingCard.uuid;
@@ -189,9 +189,9 @@ class Pexeso {
                 this.finish();
             }, 500);
         }, 1000);
-    };
+    }
 
-    markAsMatched = () => {
+    markAsMatched() {
         // Mark cards as matched
         for (const card of this.revealedCards) {
             this.matchCard(card);
@@ -200,18 +200,18 @@ class Pexeso {
         this.matchedCards.push(...this.revealedCards);
         // Reset revealed cards
         this.revealedCards = [];
-    };
+    }
 
-    clearRevealedCards = () => {
+    clearRevealedCards() {
         // Hide revealed cards
         for (const card of this.revealedCards) {
             this.hideCard(card);
         }
         // Reset revealed cards
         this.revealedCards = [];
-    };
+    }
 
-    initializeCard = (card, cardFrontEl, cardBackendEl, cardEl) => {
+    initializeCard(card, cardFrontEl) {
         const onCardClickFn = () => {
             // Block attempt to reveal card if game is not running
             if (this.state !== 'running') {
@@ -245,9 +245,9 @@ class Pexeso {
         };
 
         cardFrontEl.addEventListener('click', onCardClickFn);
-    };
+    }
 
-    start = () => {
+    start() {
         if (this.state !== 'init') {
             return;
         }
@@ -258,9 +258,9 @@ class Pexeso {
         }, 1000);
         this.time = 0;
         this.renderTime();
-    };
+    }
 
-    finish = () => {
+    finish() {
         this.state = 'finished';
         clearInterval(this.timer);
         setTimeout(() => {
@@ -270,14 +270,13 @@ class Pexeso {
         }, 500);
     };
 
-    renderTime = () => {
+    renderTime() {
         const minutes = Math.floor(this.time / 60);
         const seconds = this.time - (Math.floor(this.time / 60) * 60);
         const minutesAsString = minutes < 10 ? '0' + String(minutes) : String(minutes);
         const secondsAsString = seconds < 10 ? '0' + String(seconds) : String(seconds);
         this.containerHeader.innerText = 'čas ' + minutesAsString + ':' + secondsAsString;
-    };
-
+    }
 }
 
 const app = new Pexeso('my-app');
