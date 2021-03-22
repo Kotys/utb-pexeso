@@ -126,11 +126,45 @@ class Pexeso {
             // Assing unique ID to card element
             cardEl.id = 'card-' + card.uuid;
 
+            // Register logic on composed card element
+            cardFrontEl.addEventListener('click', () => {
+                this.onCardClick(card);
+            });
+
             // Append composed card element to visible DOM
             this.containerBody.appendChild(cardEl);
+        }
+    }
 
-            // Register logic on composed card element
-            this.initializeCard(card, cardFrontEl, cardBackEl, cardEl);
+    onCardClick(card) {
+        // Block attempt to reveal card if game is not running
+        if (this.state !== 'running') {
+            return;
+        }
+
+        // Block attempt to revael more cards during evaluation of revealed pair
+        if (this.revealedCards.length === 2) {
+            return;
+        }
+
+        this.revealCard(card);
+        this.revealedCards.push(card);
+
+        if (this.revealedCards.length === 2) {
+            // Wait 2000ms before evaluation
+            setTimeout(() => {
+                if (this.revealedCards.length === 2) {
+                    if (this.checkForRevealedCardsMatch()) {
+                        this.markRevealedAsMatched();
+                        // Only single pair remains to be revealed
+                        if (this.cards.length - this.matchedCards.length === 2) {
+                            this.revealRemainingCards();
+                        }
+                    } else {
+                        this.clearRevealed();
+                    }
+                }
+            }, 1000);
         }
     }
 
@@ -196,7 +230,7 @@ class Pexeso {
         }, 1000);
     }
 
-
+    // Take all revealed cards and mark them as matched
     markRevealedAsMatched() {
         // Mark cards as matched
         for (const card of this.revealedCards) {
@@ -208,6 +242,7 @@ class Pexeso {
         this.revealedCards = [];
     }
 
+    // Hide all revealed cards
     clearRevealed() {
         // Hide revealed cards
         for (const card of this.revealedCards) {
@@ -215,42 +250,6 @@ class Pexeso {
         }
         // Reset revealed cards
         this.revealedCards = [];
-    }
-
-    initializeCard(card, cardFrontEl) {
-        const onCardClickFn = () => {
-            // Block attempt to reveal card if game is not running
-            if (this.state !== 'running') {
-                return;
-            }
-
-            // Block attempt to revael more cards during evaluation of revealed pair
-            if (this.revealedCards.length === 2) {
-                return;
-            }
-
-            this.revealCard(card);
-            this.revealedCards.push(card);
-
-            if (this.revealedCards.length === 2) {
-                // Wait 2000ms before evaluation
-                setTimeout(() => {
-                    if (this.revealedCards.length === 2) {
-                        if (this.checkForRevealedCardsMatch()) {
-                            this.markRevealedAsMatched();
-                            // Only single pair remains to be revealed
-                            if (this.cards.length - this.matchedCards.length === 2) {
-                                this.revealRemainingCards();
-                            }
-                        } else {
-                            this.clearRevealed();
-                        }
-                    }
-                }, 1000);
-            }
-        };
-
-        cardFrontEl.addEventListener('click', onCardClickFn);
     }
 
     // Start game
