@@ -8,7 +8,6 @@ class Pexeso {
     /**
      * Main Containers
      */
-    container = null;
     containerHeader = null;
     containerBody = null;
 
@@ -49,7 +48,6 @@ class Pexeso {
      * @param containerId
      */
     constructor(containerId) {
-        this.container = document.getElementById(containerId);
         this.containerHeader = document.getElementById(containerId + '-header');
         this.containerBody = document.getElementById(containerId + '-body');
 
