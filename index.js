@@ -15,6 +15,16 @@ const pexeso = (containerId) => {
 	 */
 	app.cards = [];
 
+  /**
+	 * Matched of Cards UUIDs
+	 */
+	app.cardsMatched = [];
+
+  /**
+	 * First revealed cards UUID
+	 */
+  app.revealedCard = null;
+
 	/**
 	 * Generate random Cards
 	 */
@@ -22,19 +32,23 @@ const pexeso = (containerId) => {
 		const cards = [];
 
     // TODO: Randomize
-    cards.push({icon: 'bell'});
-		cards.push({icon: 'bug'});
-		cards.push({icon: 'wifi'});
-    cards.push({icon: 'taxi'});
-    cards.push({icon: 'bicycle'});
-    cards.push({icon: 'coffee'});
-    cards.push({icon: 'diamond'});
-    cards.push({icon: 'gift'});
-    cards.push({icon: 'rocket'});
-    cards.push({icon: 'gamepad'});
+    cards.push({uuid: null, code: 'bell', icon: 'bell'});
+		cards.push({uuid: null, code: 'bug', icon: 'bug'});
+		cards.push({uuid: null, code: 'wifi', icon: 'wifi'});
+    cards.push({uuid: null, code: 'taxi', icon: 'taxi'});
+    cards.push({uuid: null, code: 'bicycle', icon: 'bicycle'});
+    cards.push({uuid: null, code: 'coffee', icon: 'coffee'});
+    cards.push({uuid: null, code: 'diamond', icon: 'diamond'});
+    cards.push({uuid: null, code: 'gift', icon: 'gift'});
+    cards.push({uuid: null, code: 'rocket', icon: 'rocket'});
+    cards.push({uuid: null, code: 'gamepad', icon: 'gamepad'});
 
     // Duplicate entries
     cards.push(...cards);
+
+    for(const index in cards) {
+      cards[index].uuid = cards[index].code + index;
+    }
 
     // Shuffle
     cards.sort(() => Math.random() - 0.5);
@@ -47,32 +61,50 @@ const pexeso = (containerId) => {
    */
 	app.render = () => {
 		for (const card of app.cards) {
+      // Create card element - card
 			const cardEl = document.createElement('div');
 			cardEl.className = 'card';
 
+      // Create card element - front side
       const cardFrontEl = document.createElement('div');
 			cardFrontEl.className = 'card-front';
-      cardEl.appendChild(cardFrontEl);
 
+      // Create card element - back side
       const cardBackEl = document.createElement('div');
 			cardBackEl.className = 'card-back';
 
       const iconEl = document.createElement('i');
       iconEl.className = 'fa fa-' + card.icon;
-      cardBackEl.appendChild(iconEl);
 
+      // Append card element - front side
+      cardEl.appendChild(cardFrontEl);
+
+      // Compose and append card element - back side
+      cardBackEl.appendChild(iconEl);
       cardEl.appendChild(cardBackEl);
 
-      cardEl.addEventListener('click', toggleCardFn);
-
-
-      function toggleCardFn() {
-        this.classList.toggle('card-revealed');
-      }
-
+      // Append composed card element to visible DOM
 			app.container.appendChild(cardEl);
+
+      // Register logic on composed card element
+      app.initializeCard(card, cardFrontEl, cardBackEl, cardEl);
 		}
 	};
+
+  app.revealCardFn = () => {
+    return () => {
+
+    };
+  };
+
+
+  app.toggle = () => {
+
+  };
+
+  app.initializeCard = (obj, cardFrontEl, cardBackendEl, cardEl) => {
+
+  };
 
 	return app;
 };
