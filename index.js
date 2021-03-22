@@ -6,9 +6,11 @@ const pexeso = (containerId) => {
     const app = this;
 
     /**
-     * Main Container
+     * Main Containers
      */
     app.container = document.getElementById(containerId);
+    app.containerHeader = document.getElementById(containerId + '-header');
+    app.containerBody = document.getElementById(containerId + '-body');
 
     /**
      * Value representing app status
@@ -106,7 +108,7 @@ const pexeso = (containerId) => {
             cardEl.id = 'card-' + card.uuid;
 
             // Append composed card element to visible DOM
-            app.container.appendChild(cardEl);
+            app.containerBody.appendChild(cardEl);
 
             // Register logic on composed card element
             app.initializeCard(card, cardFrontEl, cardBackEl, cardEl);
@@ -230,6 +232,9 @@ const pexeso = (containerId) => {
     };
 
     app.start = () => {
+      if(app.state !== 'idle') {
+return;
+      }
         app.state = 'running';
         app.timer = setInterval(() => {
             app.time++;
@@ -245,7 +250,8 @@ const pexeso = (containerId) => {
     };
 
     app.renderTime = () => {
-      
+      app.containerHeader.innerText = 'čas ' + app.time;
+      console.log(app.containerHeader.innerText);
     };
 
     return app;

@@ -3,6 +3,11 @@ body {
   line-height: 0;
 }
 
+header {
+  font-size: 32px;
+  line-height: 32px;
+}
+
 .card {
 	-webkit-transform-style: preserve-3d;
 	transform-style: preserve-3d;
