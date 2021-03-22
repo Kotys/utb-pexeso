@@ -114,6 +114,15 @@ const pexeso = (containerId) => {
     el.classList.remove('card-revealed');
   };
 
+  // Helper fn, that adds card-matched class to card matching element
+  app.hideCard = (card) => {
+    const el = document.getElementById('card-' + card.uuid);
+    if(!el) {
+      return;
+    }
+    el.classList.add('card-matched');
+  };
+
 //   app.revealCardFnFactory = (card) => {
 //     return (event) => {
 //       cardElement.classList.add('card-revealed');
@@ -149,8 +158,16 @@ const pexeso = (containerId) => {
       if(app.revealedCards.length === 2) {
         if(app.revealedCardsMatch()) {
 
+          for(const card of app.revealedCards) {
+            app.matchCard(card);
+          }
+          app.matchedCards.push(...app.revealedCards);
+          app.revealedCards = [];
         } else {
-          
+          for(const card of app.revealedCards) {
+            app.hideCard(card);
+          }
+          app.revealedCards = [];
         }
       }
 
