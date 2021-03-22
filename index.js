@@ -11,19 +11,19 @@ const pexeso = (containerId) => {
 	app.container = document.getElementById(containerId);
 
 	/**
-	 * Array of Cards
+	 * Array of available cards objects
 	 */
 	app.cards = [];
 
   /**
-	 * Matched of Cards UUIDs
+	 * Revealed cards objects
 	 */
-	app.cardsMatched = [];
+  app.revealedCards = [];
 
   /**
-	 * First revealed cards object
+	 * Matched cards objects
 	 */
-  app.revealedCard = null;
+	app.matchedCards = [];
 
 	/**
 	 * Generate random Cards
@@ -47,7 +47,7 @@ const pexeso = (containerId) => {
     cards.push(...cards);
 
     for(const index in cards) {
-      cards[index].uuid = cards[index].code + index;
+      cards[index].uuid = cards[index].code + '-' + index;
     }
 
     // Shuffle
@@ -83,6 +83,9 @@ const pexeso = (containerId) => {
       cardBackEl.appendChild(iconEl);
       cardEl.appendChild(cardBackEl);
 
+      // Assing unique ID to card element
+      cardEl.id = card.uuid;
+
       // Append composed card element to visible DOM
 			app.container.appendChild(cardEl);
 
@@ -91,7 +94,25 @@ const pexeso = (containerId) => {
 		}
 	};
 
-  app.revealCardFnFactory = (card, cardElement) => {
+  // Helper fn, that adds card-revealed class to card matching element
+  app.revealCard = (card) => {
+    const el = document.getElementById('card-' + card.uuid);
+    if(!el) {
+      return;
+    }
+    el.classList.add('card-revealed');
+  };
+
+  // Helper fn, that removes card-revealed class to card matching element
+  app.hideCard = (card) => {
+    const el = document.getElementById('card-' + card.uuid);
+    if(!el) {
+      return;
+    }
+    el.classList.remove('card-revealed');
+  };
+
+  app.revealCardFnFactory = (card) => {
     return (event) => {
       console.log(card);
       cardElement.classList.add('card-revealed');
@@ -117,13 +138,35 @@ const pexeso = (containerId) => {
     const markCardAsRevealedFn = app.markCardAsRevealedFnFactory(card);
 
     const onClickFn = () => {
-      revealCardFn();
-      markCardAsRevealedFn();
+      // TODO: Check already revealed!
+      app.revealCard(card);
+      app.revealedCards.push(card);
+
+      if(app.revealedCards.length === 2) {
+        if(app.revealedCardsMatch()) {
+
+        }
+      }
+
+      // revealCardFn();
+      // markCardAsRevealedFn();
+      
       if(app.revealedCard && app.revealedCard.uuid !== card.uuid) {
         if(app.checkMatch(app.revealedCard, card)) {
 
         } else {
           // Hide them
+          cardsElements = [
+            document.getElementsById(app.revealedCard.uuid),
+            document.getElementsById(card.uuid)
+          ];
+          for(const cardElement of cardsElements) {
+            // Not found
+            if(!cardElement) {
+              continue;
+            }
+            cardElement.classList.remove('');
+          }
         }
       }
     };
