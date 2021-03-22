@@ -277,7 +277,7 @@ class Pexeso {
         }, 500);
     };
 
-    // Helper fn, updates UI
+    // Helper fn, updates UI with elapsed time
     renderTime() {
         const minutes = Math.floor(this.timer / 60);
         const seconds = this.timer - (Math.floor(this.timer / 60) * 60);
