@@ -272,7 +272,7 @@ class Pexeso {
         clearInterval(this.timerIntervalId);
         setTimeout(() => {
             if (this.cards.length === this.matchedCards.length) {
-                alert('Ya win!');
+                alert('Konec hry');
             }
         }, 500);
     };
