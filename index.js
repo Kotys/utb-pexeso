@@ -115,7 +115,7 @@ const pexeso = (containerId) => {
   };
 
   // Helper fn, that adds card-matched class to card matching element
-  app.hideCard = (card) => {
+  app.matchCard = (card) => {
     const el = document.getElementById('card-' + card.uuid);
     if(!el) {
       return;
@@ -155,9 +155,10 @@ const pexeso = (containerId) => {
       app.revealCard(card);
       app.revealedCards.push(card);
 
+      setTimeout(() => {
+
       if(app.revealedCards.length === 2) {
         if(app.revealedCardsMatch()) {
-
           for(const card of app.revealedCards) {
             app.matchCard(card);
           }
@@ -170,6 +171,10 @@ const pexeso = (containerId) => {
           app.revealedCards = [];
         }
       }
+
+      }, 2000);
+
+      
 
       // revealCardFn();
       // markCardAsRevealedFn();
