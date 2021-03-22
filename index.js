@@ -139,38 +139,56 @@ const pexeso = (containerId) => {
     };
 
     app.revealRemainingCards = (remainingCards) => {
-      if(remainingCards.length !== 2) {
-        return;
-      }
-      app.revealCard(remainingCards[0]);
-      app.revealedCards.push(remainingCards[0]);
-      setTimeout(() => {
-        app.revealCard(remainingCards[1]);
-        app.revealedCards.push(remainingCards[1]);
+        if (remainingCards.length !== 2) {
+            return;
+        }
+        app.revealCard(remainingCards[0]);
+        app.revealedCards.push(remainingCards[0]);
 
         setTimeout(() => {
-          // Store cards as matched
-          app.matchedCards.push(...app.revealedCards);
-          // Reset revealed cards
-          app.revealedCards = [];
-          app.finish();
-        });
-      }, 1000);
+            app.revealCard(remainingCards[1]);
+            app.revealedCards.push(remainingCards[1]);
+
+            setTimeout(() => {
+                app.markAsMatched();
+                app.finish();
+            }, 1000);
+        }, 500);
+    };
+
+    app.markAsMatched = () => {
+        // Mark cards as matched
+        for (const card of app.revealedCards) {
+            app.matchCard(card);
+        }
+        // Store cards as matched
+        app.matchedCards.push(...app.revealedCards);
+        // Reset revealed cards
+        app.revealedCards = [];
+    };
+
+    app.clearRevealedCards = () => {
+        // Hide revealed cards
+        for (const card of app.revealedCards) {
+            app.hideCard(card);
+        }
+        // Reset revealed cards
+        app.revealedCards = [];
     };
 
     app.start = () => {
-      app.state = 'running';
+        app.state = 'running';
     };
 
     app.finish = () => {
-      app.state = 'finished';
+        app.state = 'finished';
     };
 
     app.initializeCard = (card, cardFrontEl, cardBackendEl, cardEl) => {
         const onCardClickFn = () => {
             // Block attempt to reveal card if game is not running
-            if(app.state !== 'running') {
-              return;
+            if (app.state !== 'running') {
+                return;
             }
 
             // Block attempt to revael more cards during evaluation of revealed pair
@@ -185,31 +203,18 @@ const pexeso = (containerId) => {
             setTimeout(() => {
                 if (app.revealedCards.length === 2) {
                     if (app.revealedCardsMatch()) {
-                        // Mark cards as matched
-                        for (const card of app.revealedCards) {
-                            app.matchCard(card);
-                        }
-                        // Store cards as matched
-                        app.matchedCards.push(...app.revealedCards);
-                        // Reset revealed cards
-                        app.revealedCards = [];
-
+                        app.markAsMatched();
                         // Only single pair remains to be revealed
-                        if(app.cards.length - app.matchedCards.length === 2) {
-                          const remainingCards = app.cards.filter(remainingCard => {
-                            return app.matchedCards.find(matchedCard => {
-                              return matchedCard.uuid === remainingCard.uuid;
-                            }) === undefined;
-                          });
-                          app.revealRemainingCards(remainingCards);
+                        if (app.cards.length - app.matchedCards.length === 2) {
+                            const remainingCards = app.cards.filter(remainingCard => {
+                                return app.matchedCards.find(matchedCard => {
+                                    return matchedCard.uuid === remainingCard.uuid;
+                                }) === undefined;
+                            });
+                            app.revealRemainingCards(remainingCards);
                         }
                     } else {
-                        // Hide revealed cards
-                        for (const card of app.revealedCards) {
-                            app.hideCard(card);
-                        }
-                        // Reset revealed cards
-                        app.revealedCards = [];
+                        app.clearRevealedCards();
                     }
                 }
             }, 2000);
@@ -227,28 +232,4 @@ app.generateCards();
 app.render();
 app.start();
 
-
 console.log(app);
-
-
-// const appDiv = document.getElementById('my-app');
-
-// const cards = [
-//   {
-//     icon: ''
-//   }
-// ];
-
-
-// function generateCards() {
-
-// }
-
-// const cardElements = appDiv.getElementsByClassName('card');
-// for(const cardElement of cardElements) {
-//   cardElement.addEventListener('click', toggleCardFn);
-// }
-
-// function toggleCardFn() {
-//   this.classList.toggle('card-revealed');
-// }
