@@ -126,7 +126,7 @@ const pexeso = (containerId) => {
     };
 
     app.revealedCardsMatch = () => {
-        if (app.revealedCards && app.revealedCards.length === 2) {
+        if (app.revealedCards.length === 2) {
             return app.revealedCards[0].code === app.revealedCards[1].code;
         }
         return false;
@@ -135,7 +135,7 @@ const pexeso = (containerId) => {
     app.initializeCard = (card, cardFrontEl, cardBackendEl, cardEl) => {
         const onCardClickFn = () => {
             // Block attempt to revael more cards during evaluation of revealed pair
-            if (app.revealedCards && app.revealedCards.length === 2) {
+            if (app.revealedCards.length === 2) {
                 return;
             }
 
@@ -144,7 +144,7 @@ const pexeso = (containerId) => {
 
             // Wait 2000ms before result evaluation
             setTimeout(() => {
-                if (app.revealedCards && app.revealedCards.length === 2) {
+                if (app.revealedCards.length === 2) {
                     if (app.revealedCardsMatch()) {
                         // Mark cards as matched
                         for (const card of app.revealedCards) {
@@ -154,6 +154,14 @@ const pexeso = (containerId) => {
                         app.matchedCards.push(...app.revealedCards);
                         // Reset revealed cards
                         app.revealedCards = [];
+
+                        // Only single pair remains to be revealed
+                        if(app.cards.length - app.matchedCards.length === 2) {
+                          const remainingCards = [];
+                          for(const remainingCard of remainingCards) {
+                            // TODO: Simulate click
+                          }
+                        }
                     } else {
                         // Hide revealed cards
                         for (const card of app.revealedCards) {
@@ -163,7 +171,6 @@ const pexeso = (containerId) => {
                         app.revealedCards = [];
                     }
                 }
-
             }, 2000);
         };
 
