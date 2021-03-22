@@ -39,7 +39,7 @@ button.start-btn {
 }
 
 .card.card-matched {
-	border-color: green;
+	border-color: rgb(8, 194, 8);
 }
 
 .card .card-front,
