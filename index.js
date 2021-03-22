@@ -62,15 +62,15 @@ const pexeso = (containerId) => {
 
         for (const card of [
             {uuid: null, code: 'bell', icon: 'bell'},
-            // {uuid: null, code: 'bug', icon: 'bug'},
+            {uuid: null, code: 'bug', icon: 'bug'},
             // {uuid: null, code: 'wifi', icon: 'wifi'},
             // {uuid: null, code: 'taxi', icon: 'taxi'},
             // {uuid: null, code: 'bicycle', icon: 'bicycle'},
-            {uuid: null, code: 'coffee', icon: 'coffee'},
+            // {uuid: null, code: 'coffee', icon: 'coffee'},
             // {uuid: null, code: 'diamond', icon: 'diamond'},
             // {uuid: null, code: 'gift', icon: 'gift'},
             // {uuid: null, code: 'rocket', icon: 'rocket'},
-            {uuid: null, code: 'gamepad', icon: 'gamepad'},
+            // {uuid: null, code: 'gamepad', icon: 'gamepad'},
         ]) {
             cards.push({
                 ...card,
@@ -276,6 +276,4 @@ const pexeso = (containerId) => {
     return app;
 };
 
-const app = pexeso('my-app');
-
-console.log(app);
+pexeso('my-app');
