@@ -5,7 +5,6 @@
 	width: 200px;
 	height: 200px;
 	position: relative;
-	cursor: pointer;
   transition: all 600ms;
   border: 2px solid rgb(200, 200, 200);
   margin: 5px;
@@ -34,6 +33,7 @@
 	background: rgb(48, 48, 48) no-repeat url("https://raw.githubusercontent.com/Kotys/utb-pexeso/master/assets/b2a-logo-digital-innovation-light-2%402.png");
 	background-position: center center;
 	background-size: 65%;
+  cursor: pointer;
 }
 
 .card .card-back {
