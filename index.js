@@ -138,7 +138,13 @@ const pexeso = (containerId) => {
         return false;
     };
 
-    app.revealRemainingCards = (remainingCards) => {
+    app.revealRemainingCards = () => {
+        const remainingCards = app.cards.filter(remainingCard => {
+            return app.matchedCards.find(matchedCard => {
+                return matchedCard.uuid === remainingCard.uuid;
+            }) === undefined;
+        });
+
         if (remainingCards.length !== 2) {
             return;
         }
@@ -206,12 +212,7 @@ const pexeso = (containerId) => {
                         app.markAsMatched();
                         // Only single pair remains to be revealed
                         if (app.cards.length - app.matchedCards.length === 2) {
-                            const remainingCards = app.cards.filter(remainingCard => {
-                                return app.matchedCards.find(matchedCard => {
-                                    return matchedCard.uuid === remainingCard.uuid;
-                                }) === undefined;
-                            });
-                            app.revealRemainingCards(remainingCards);
+                            app.revealRemainingCards();
                         }
                     } else {
                         app.clearRevealedCards();
