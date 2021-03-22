@@ -31,30 +31,31 @@ const pexeso = (containerId) => {
 	app.generateCards = () => {
 		const cards = [];
 
-    // TODO: Randomize
-    cards.push({uuid: null, code: 'bell', icon: 'bell'});
-    cards.push({uuid: null, code: 'bell', icon: 'bell'});
-		cards.push({uuid: null, code: 'bug', icon: 'bug'});
-    cards.push({uuid: null, code: 'bug', icon: 'bug'});
-		// cards.push({uuid: null, code: 'wifi', icon: 'wifi'});
-    // cards.push({uuid: null, code: 'taxi', icon: 'taxi'});
-    // cards.push({uuid: null, code: 'bicycle', icon: 'bicycle'});
-    // cards.push({uuid: null, code: 'coffee', icon: 'coffee'});
-    // cards.push({uuid: null, code: 'diamond', icon: 'diamond'});
-    // cards.push({uuid: null, code: 'gift', icon: 'gift'});
-    // cards.push({uuid: null, code: 'rocket', icon: 'rocket'});
-    // cards.push({uuid: null, code: 'gamepad', icon: 'gamepad'});
-
-    // Duplicate entries
-    // cards.push(...cards);
-
-    for(const index in cards) {
-      cards[index].uuid = cards[index].code + '-' + index;
+    for(const card of [
+      {uuid: null, code: 'bell', icon: 'bell'},
+		  // {uuid: null, code: 'bug', icon: 'bug'},
+      // {uuid: null, code: 'wifi', icon: 'wifi'},
+      // {uuid: null, code: 'taxi', icon: 'taxi'},
+      // {uuid: null, code: 'bicycle', icon: 'bicycle'},
+      // {uuid: null, code: 'coffee', icon: 'coffee'},
+      // {uuid: null, code: 'diamond', icon: 'diamond'},
+      // {uuid: null, code: 'gift', icon: 'gift'},
+      // {uuid: null, code: 'rocket', icon: 'rocket'},
+      {uuid: null, code: 'gamepad', icon: 'gamepad'},
+    ]) {
+      cards.push({
+        ...card,
+        uuid: card.code + '-1',
+      },{
+        ...card,
+        uuid: card.code + '-2',
+      });
     }
 
     // Shuffle
     cards.sort(() => Math.random() - 0.5);
 
+    // Assign finished cards
     app.cards = cards;
 	};
 
@@ -103,6 +104,7 @@ const pexeso = (containerId) => {
       return;
     }
     el.classList.add('card-revealed');
+    app.revealedCards.push(card);
   };
 
   // Helper fn, that removes card-revealed class to card matching element
@@ -112,6 +114,9 @@ const pexeso = (containerId) => {
       return;
     }
     el.classList.remove('card-revealed');
+    app.revealedCards =app.revealedCards.filter(revealedCard => {
+      return revealedCard.uuid !== card.uuid;
+    });
   };
 
   // Helper fn, that adds card-matched class to card matching element
@@ -121,22 +126,7 @@ const pexeso = (containerId) => {
       return;
     }
     el.classList.add('card-matched');
-  };
-
-//   app.revealCardFnFactory = (card) => {
-//     return (event) => {
-//       cardElement.classList.add('card-revealed');
-//     };
-//   };
-
-  app.markCardAsRevealedFnFactory = (card) => {
-    // Check for already revealed card
-    if (app.revealedCard && app.revealedCard.uuid === card.uuid) {
-      return;
-    }
-    app.revealedCard = card;
-
-    console.log(app.revealedCard);
+    app.matchCards.push(card);
   };
 
   app.revealedCardsMatch = () => {
