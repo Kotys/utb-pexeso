@@ -78,12 +78,12 @@ class App {
 
 		// Iterate over available cards
 		for (const card of [
-			{code: 'bell', icon: 'bell'},
-			{code: 'bug', icon: 'bug'},
-			{code: 'wifi', icon: 'wifi'},
-			{code: 'coffee', icon: 'coffee'},
-			{code: 'diamond', icon: 'diamond'},
-			{code: 'rocket', icon: 'rocket'},
+			{code: 'bell'},
+			{code: 'bug'},
+			{code: 'wifi'},
+			{code: 'coffee'},
+			{code: 'diamond'},
+			{code: 'rocket'},
 		]) {
 			// Create pairs of same card with different uuid 
 			cards.push({
@@ -123,7 +123,7 @@ class App {
 			cardBackEl.className = 'card-back';
 
 			const iconEl = document.createElement('i');
-			iconEl.className = 'fa fa-' + card.icon;
+			iconEl.className = 'fa fa-' + card.code;
 
 			// Append card element - front side
 			cardEl.appendChild(cardFrontEl);
