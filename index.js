@@ -279,7 +279,8 @@ class App {
 		}
 		this.state = 'finished';
 		clearInterval(this.timerIntervalId);
-		if (this.cards.length === this.matchedCards.length) {
+
+    if (this.cards.length === this.matchedCards.length) {
 			setTimeout(() => {
 				if (this.cards.length === this.matchedCards.length) {
 					alert('Game over');
