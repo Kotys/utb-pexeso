@@ -1,13 +1,14 @@
 .card {
-	-webkit-transform-style: preserve-3d;
-	transform-style: preserve-3d;
 	display: inline-block;
 	width: 200px;
 	height: 200px;
 	position: relative;
-  transition: all 600ms;
   border: 2px solid rgb(200, 200, 200);
   margin: 5px;
+  /* Animations */
+  transition: all 600ms;
+  -webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
 }
 
 .card.card-revealed {
@@ -39,12 +40,13 @@
 .card .card-back {
 	background: rgb(96, 96, 96);
 	color: #FFF;
-	-webkit-transform: rotateX(180deg);
-	transform: rotateX(180deg);
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Animations */
+  -webkit-transform: rotateX(180deg);
+	transform: rotateX(180deg);
 }
 
 .card .card-back i.fa {
