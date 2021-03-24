@@ -278,7 +278,7 @@ class App {
 		clearInterval(this.timerIntervalId);
 		setTimeout(() => {
 			if (this.cards.length === this.matchedCards.length) {
-				alert('Konec hry');
+				alert('Game over');
 			}
 		}, 500);
 	};
@@ -289,7 +289,7 @@ class App {
 		const seconds = this.timer - (Math.floor(this.timer / 60) * 60);
 		const minutesAsString = minutes < 10 ? '0' + String(minutes) : String(minutes);
 		const secondsAsString = seconds < 10 ? '0' + String(seconds) : String(seconds);
-		this.containerHeader.innerText = 'Čas ' + minutesAsString + ':' + secondsAsString;
+		this.containerHeader.innerText = 'Time ' + minutesAsString + ':' + secondsAsString;
 	}
 }
 
