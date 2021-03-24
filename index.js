@@ -78,12 +78,12 @@ class App {
 
 		// Iterate over available cards
 		for (const card of [
-			{uuid: null, code: 'bell', icon: 'bell'},
-			{uuid: null, code: 'bug', icon: 'bug'},
-			{uuid: null, code: 'wifi', icon: 'wifi'},
-			{uuid: null, code: 'coffee', icon: 'coffee'},
-			{uuid: null, code: 'diamond', icon: 'diamond'},
-			{uuid: null, code: 'rocket', icon: 'rocket'},
+			{code: 'bell', icon: 'bell'},
+			{code: 'bug', icon: 'bug'},
+			{code: 'wifi', icon: 'wifi'},
+			{code: 'coffee', icon: 'coffee'},
+			{code: 'diamond', icon: 'diamond'},
+			{code: 'rocket', icon: 'rocket'},
 		]) {
 			// Create pairs of same card with different uuid 
 			cards.push({
