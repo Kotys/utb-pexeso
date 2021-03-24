@@ -33,18 +33,18 @@ class Pexeso {
     matchedCards = [];
 
     /**
-     * Game time in seconds
+     * Time in seconds
      */
     timer = 0;
 
     /**
-     * Game timer interval
+     * Timer interval
      */
     timerIntervalId = null;
 
     /**
      * Register main Containers
-     * Append game start button
+     * Append start button
      * @param containerId
      */
     constructor(containerId) {
@@ -136,7 +136,7 @@ class Pexeso {
     }
 
     onCardClick(card) {
-        // Block attempt to reveal card if game is not running
+        // Block attempt to reveal card if app is not running
         if (this.state !== 'running') {
             return;
         }
@@ -251,7 +251,7 @@ class Pexeso {
         this.revealedCards = [];
     }
 
-    // Start game
+    // Start
     start() {
         if (this.state !== 'init') {
             return;
@@ -265,7 +265,7 @@ class Pexeso {
         this.renderTime();
     }
 
-    // Finish game
+    // Finish
     finish() {
         this.state = 'finished';
         clearInterval(this.timerIntervalId);
