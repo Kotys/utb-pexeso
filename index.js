@@ -111,7 +111,7 @@ class App {
 			const cardEl = document.createElement('div');
 			cardEl.className = 'card';
 
-      // Assing unique ID to card element
+			// Assing unique ID to card element
 			cardEl.id = 'card-' + card.uuid;
 
 			// Create card element - front side
@@ -274,13 +274,18 @@ class App {
 
 	// Finish
 	finish() {
+		if (this.state === 'running' && this.state !== 'finished') {
+			return;
+		}
 		this.state = 'finished';
 		clearInterval(this.timerIntervalId);
-		setTimeout(() => {
-			if (this.cards.length === this.matchedCards.length) {
-				alert('Game over');
-			}
-		}, 500);
+		if (this.cards.length === this.matchedCards.length) {
+			setTimeout(() => {
+				if (this.cards.length === this.matchedCards.length) {
+					alert('Game over');
+				}
+			}, 500);
+		}
 	};
 
 	// Helper fn, updates UI with elapsed time
