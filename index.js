@@ -3,7 +3,7 @@ import './styles/reset.css';
 import './styles/layout.css';
 import './styles/app.css';
 
-class Pexeso {
+class App {
 
     /**
      * Main Containers
@@ -286,5 +286,5 @@ class Pexeso {
     }
 }
 
-// Create Pexeso instance
-const app = new Pexeso('my-app');
+// Create app instance
+const app = new App('my-app');
