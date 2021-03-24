@@ -111,6 +111,9 @@ class App {
 			const cardEl = document.createElement('div');
 			cardEl.className = 'card';
 
+      // Assing unique ID to card element
+			cardEl.id = 'card-' + card.uuid;
+
 			// Create card element - front side
 			const cardFrontEl = document.createElement('div');
 			cardFrontEl.className = 'card-front';
@@ -128,9 +131,6 @@ class App {
 			// Compose and append card element - back side
 			cardBackEl.appendChild(iconEl);
 			cardEl.appendChild(cardBackEl);
-
-			// Assing unique ID to card element
-			cardEl.id = 'card-' + card.uuid;
 
 			// Register logic on composed card element
 			cardFrontEl.addEventListener('click', () => {
