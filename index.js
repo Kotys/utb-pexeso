@@ -103,7 +103,7 @@ class App {
 	}
 
 	/**
-	 * Create Cards Elements in Container element
+	 * Create Cards Elements in Container Body element
 	 */
 	render() {
 		for (const card of this.cards) {
