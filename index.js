@@ -157,7 +157,7 @@ class App {
 		this.revealedCards.push(card);
 
 		if (this.revealedCards.length === 2) {
-			// Wait 2000ms before evaluation
+			// Wait 1000ms before evaluation
 			setTimeout(() => {
 				if (this.revealedCards.length === 2) {
 					if (this.checkForRevealedCardsMatch()) {
@@ -274,7 +274,7 @@ class App {
 
 	// Finish
 	finish() {
-		if (this.state === 'running' && this.state !== 'finished') {
+		if (this.state !== 'running') {
 			return;
 		}
 		this.state = 'finished';
